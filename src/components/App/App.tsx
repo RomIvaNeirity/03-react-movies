@@ -8,10 +8,12 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage.tsx'
 
 import { fetchMovies } from "../../services/movieService";
 import type { Movie } from "../../types/movie.ts";
+import Loader from "../Loader/Loader.tsx";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isError, setError] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
 
   const handleSubmit = async (request: string) => {
     if (!request.trim()) {
@@ -20,6 +22,7 @@ function App() {
     }
 
     setMovies([]);
+    setIsLoad(true)
 
     try {
       const results = await fetchMovies(request);
@@ -36,6 +39,10 @@ function App() {
      console.log(error)
      setError(true)
     }
+    finally {setIsLoad(false)
+      
+}
+
   };
 
   return (
@@ -43,7 +50,8 @@ function App() {
       <SearchBar onSubmit={handleSubmit} />
       <MovieGrid movies={movies} />
       {isError &&(
-      <ErrorMessage/>)}
+        <ErrorMessage />)}
+      {isLoad && (<Loader />)}
       <Toaster />
       
     </>
