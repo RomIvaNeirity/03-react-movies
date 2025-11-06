@@ -4,12 +4,14 @@ import toast, { Toaster } from "react-hot-toast";
 
 import SearchBar from "../SearchBar/SearchBar";
 import MovieGrid from "../MovieGrid/MovieGrid";
+import ErrorMessage from '../ErrorMessage/ErrorMessage.tsx'
 
 import { fetchMovies } from "../../services/movieService";
 import type { Movie } from "../../types/movie.ts";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [isError, setError] = useState(false);
 
   const handleSubmit = async (request: string) => {
     if (!request.trim()) {
@@ -31,8 +33,8 @@ function App() {
       console.log("Movies:", results);
 
     } catch (error) {
-      toast.error("Request failed.");
-      console.error(error);
+     console.log(error)
+     setError(true)
     }
   };
 
@@ -40,6 +42,8 @@ function App() {
     <>
       <SearchBar onSubmit={handleSubmit} />
       <MovieGrid movies={movies} />
+      {isError &&(
+      <ErrorMessage/>)}
       <Toaster />
       
     </>
