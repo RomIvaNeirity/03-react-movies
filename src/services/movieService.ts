@@ -7,7 +7,7 @@ interface TMDBResponse {
 }
 
 export async function fetchMovies(query: string): Promise<Movie[]> {
-  const response: AxiosResponse<TMDBResponse> = await axios.get(
+  const response: AxiosResponse = await axios.get<TMDBResponse>(
     "https://api.themoviedb.org/3/search/movie",
     {
       params: { query },

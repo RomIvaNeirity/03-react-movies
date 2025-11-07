@@ -23,20 +23,19 @@ function App() {
       toast.error("Please enter your search query.");
       return;
     }
-
+    setError(false);
     setMovies([]);
     setIsLoad(true);
 
     try {
       const results = await fetchMovies(request);
-
+      setError(false);
       if (results.length === 0) {
         toast.error("No movies found.");
         return;
       }
 
       setMovies(results);
-      console.log("Movies:", results);
     } catch (error) {
       console.log(error);
       setError(true);
